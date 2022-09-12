@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALPINE PRACTICE</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+    
+    <h1>X-data x-show x-model</h1>
+    
+    <div x-data="{showMe:{ndaga:false},count:0}">
+        <button class="btn btn-success" @click="showMe.ndaga=!showMe.ndaga;count++">Toggle</button>
+        <input type="text" class="form-control" x-model="count">
+        <div x-text="count*3"></div>
+        <div class="card text-white bg-danger mt-1" x-show="showMe.ndaga" x-transition x-cloak>
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere
+                        erat a ante.</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+
+    <h1>X-ref</h1>
+    <div class="" x-data="{ count: 0 }" x-init="count = $refs.countme.value.length">
+        <textarea
+          name="body"
+          class="char-limiter"
+          rows="3"
+          maxlength="280"
+          x-ref="countme"
+          x-on:keyup="count = $refs.countme.value.length"
+        ></textarea>
+      
+        <div class="">
+          <span x-html="count"></span> /
+          <span x-html="$refs.countme.maxLength"></span>
+        </div>
+        <div x-ref="title">Title</div>
+        <button class="btn btn-success" @click="alert($refs.title.innerHTML)">clik me</button>
+    </div>
+
+    <h1>X-data with a method</h1>
+    <div  x-data="init()">
+
+        <input type="text" class="form-control" x-model="name">
+        <div>Name:<span x-text="name"></span></div>
+        <!-- <button class="btn btn-success" @click="setName('nnamdi')">Set Name</button> -->
+      
+    </div>
+
+    <h1>X-init</h1>
+    <div x-data x-ref="thisDiv" x-init='$refs.thisDiv.innerHTML="hoooooo";'>
+        
+        <!-- <input type="text" class="form-control" x-model="name">
+        <div>Name:<span x-text="name"></span></div> -->
+        <!-- <button class="btn btn-success" @click="setName('nnamdi')">Set Name</button> -->
+      
+    </div>
+    <h1>$el</h1>
+    <div x-data x-init="$el.innerHTML = '<div>This inner element has just been inserted using the magic property $el</div>'">
+        
+        <!-- <input type="text" class="form-control" x-model="name">
+        <div>Name:<span x-text="name"></span></div> -->
+      
+        <!-- <button class="btn btn-success" @click="setName('nnamdi')">Set Name</button> -->
+      
+    </div>
+
+    <h1>X-bind</h1>
+    <div x-data="{ placeholder: 'Type here...',placeholder2:'Type again' }">
+        <input :class="placeholder=='Type here...'? 'form-control mb-2':''" type="text" x-bind:placeholder="placeholder">
+        <input class="form-control" type="text" :placeholder="placeholder2">
+    </div>
+    <h1>X-for</h1>
+    <div x-data="{ fruits: ['orange', 'mango', 'lime' ] }">
+
+        <h5>List of fruits</h5>
+
+        <template x-for="fruit in fruits">
+
+            <div x-text="fruit"></div>
+
+        </template>
+
+    </div>
+
+    <div x-data="{ text: 'Click me' }">
+
+        <button
+      
+          class="btn btn-primary"
+      
+          @click="
+      
+                  text = 'Clicked';
+      
+                  $nextTick(() => {
+      
+                      console.log($event.target.innerText) 
+      
+                  });"
+      
+          x-text="text"
+      
+        ></button>
+      
+      </div>
+      <h1>Dispatch events</h1>
+      <div x-data @notify="alert('Hello World!')" class="mt-2">
+        <button class="btn btn-success" @click="$dispatch('notify')">
+            Notify
+        </button>
+    </div>
+    <div x-data @c-event="console.log('Custom event called.')" class="mt-2">
+
+        <button @click="myFunction($dispatch)" class="btn btn-success">Search</button>
+      
+      </div>
+      
+</div>
+
+    <script>
+        function myFunction(dispatch) 
+        {
+
+            dispatch("c-event", 90);
+
+        }
+
+        function init() {
+      
+          return {
+      
+            name: "",
+      
+            // setName: function (name) {
+      
+            //   this.name = name;
+      
+            // },
+      
+          };
+      
+        }
+      
+      </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
